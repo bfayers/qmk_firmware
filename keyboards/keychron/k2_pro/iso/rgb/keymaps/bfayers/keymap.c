@@ -16,6 +16,39 @@
 
 #include QMK_KEYBOARD_H
 
+// Tap Dance Declarations
+enum {
+     TD_LSHIFT_CAPS,
+};
+
+// Tap Dance Definitions
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    [TD_LSHIFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
+};
+
+// Macro Definitions
+enum custom_keycodes {
+    MAC_SSHOT = SAFE_RANGE,
+    WIN_SSHOT,
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+          case MAC_SSHOT:
+               if (record->event.pressed) {
+                    SEND_STRING(SS_LCMD(SS_LOPT("8")));
+               }
+               break;
+          case WIN_SSHOT:
+               if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI(SS_LSFT("S")));
+               }
+               break;
+    }
+    return true;
+}
+
 // clang-format off
 enum layers{
   MAC_BASE,
@@ -57,36 +90,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  BAT_LVL,  NK_TOGG,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,            KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,  KC_TRNS,  KC_TRNS,                                KC_TRNS,                                KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS)
 };
-
-// Tap Dance Declarations
-enum {
-     TD_LSHIFT_CAPS,
-};
-
-// Tap Dance Definitions
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
-    [TD_LSHIFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-};
-
-// Macro Definitions
-enum custom_keycodes {
-    MAC_SSHOT = SAFE_RANGE,
-    WIN_SSHOT,
-};
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-          case MAC_SSHOT:
-               if (record->event.pressed) {
-                    SEND_STRING(SS_LCMD(SS_LOPT("8")));
-               }
-               break;
-          case WIN_SSHOT:
-               if (record->event.pressed) {
-                    SEND_STRING(SS_LGUI(SS_LSFT("S")));
-               }
-               break;
-    }
-    return true;
-}
