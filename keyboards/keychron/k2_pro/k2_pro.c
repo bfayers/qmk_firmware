@@ -41,9 +41,7 @@ static uint32_t siri_timer_buffer = 0;
 
 key_combination_t key_comb_list[4] = {
     {2, {KC_LWIN, KC_TAB}},        // Task (win)
-    {2, {KC_LWIN, KC_E}},          // Files (win)
-    {3, {KC_LSFT, KC_LGUI, KC_4}}, // Snapshot (mac)
-    {2, {KC_LWIN, KC_C}}           // Cortana (win)
+    {2, {KC_LWIN, KC_E}}          // Files (win)
 };
 
 #ifdef KC_BLUETOOTH_ENABLE
@@ -76,8 +74,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case KC_TASK:
         case KC_FILE:
-        case KC_SNAP:
-        case KC_CTANA:
             if (record->event.pressed) {
                 for (uint8_t i = 0; i < key_comb_list[keycode - KC_TASK].len; i++)
                     register_code(key_comb_list[keycode - KC_TASK].keycode[i]);
