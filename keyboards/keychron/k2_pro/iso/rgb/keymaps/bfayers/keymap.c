@@ -17,6 +17,7 @@
 #include QMK_KEYBOARD_H
 
 // clang-format off
+// List of Layers
 enum layers{
   BASE,
   MAC_FN,
@@ -100,6 +101,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+//Definition of layers
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [BASE] = LAYOUT_iso_85(
      KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   SSHOT,  KC_DEL,   RGB_MOD,
