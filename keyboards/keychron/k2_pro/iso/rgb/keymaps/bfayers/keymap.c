@@ -32,7 +32,17 @@ enum custom_keycodes {
     MAC_SSHOT = SAFE_RANGE,
     WIN_SSHOT,
     CMD_SPC,
+    TEST_MACRO,
 };
+
+bool win_mac = false;
+
+bool dip_switch_update_user(uint8_t index, bool active) {
+    if (index == 0) {
+        win_mac = active;
+    }
+    return true;
+}
 
 // Macro Processing
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -50,6 +60,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           case CMD_SPC:
                if (record->event.pressed) {
                     SEND_STRING(SS_LCMD(" "));
+               }
+               break;
+          case TEST_MACRO:
+               if (record->event.pressed) {
+                    if (win_mac) {
+                         SEND_STRING("Hello World! WIN");
+                    } else {
+                         SEND_STRING("Hello World! MAC");
+                    }
                }
                break;
     }
