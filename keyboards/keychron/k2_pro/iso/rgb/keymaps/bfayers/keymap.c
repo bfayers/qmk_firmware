@@ -35,6 +35,7 @@ enum custom_keycodes {
     TEST_MACRO,
 };
 
+// This will be true when the switch is set to windows, and false when the switch is set to mac.
 bool win_mac = false;
 
 bool dip_switch_update_user(uint8_t index, bool active) {
