@@ -8,9 +8,6 @@
     },
     "rgb_matrix": {
         "driver": "CKLED2001",
-        "default": {
-            "animation": "splash"
-        },
         "animations": {
             "rainbow_beacon": true,
             "pixel_rain": true,
