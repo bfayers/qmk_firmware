@@ -82,13 +82,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                     unregister_code(key_comb_list[keycode - KC_TASK].keycode[i]);
             }
             return false; // Skip all further processing of this key
-        case KC_SIRI:
-            if (record->event.pressed && siri_timer_buffer == 0) {
-                register_code(KC_LGUI);
-                register_code(KC_SPACE);
-                siri_timer_buffer = sync_timer_read32() | 1;
-            }
-            return false; // Skip all further processing of this key
 #ifdef KC_BLUETOOTH_ENABLE
         case BT_HST1 ... BT_HST3:
             if (get_transport() == TRANSPORT_BLUETOOTH) {

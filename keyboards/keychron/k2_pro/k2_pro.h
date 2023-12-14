@@ -31,15 +31,8 @@
 
 // clang-format off
 enum {
-    KC_LOPTN = USER_START,
-    KC_ROPTN,
-    KC_LCMMD,
-    KC_RCMMD,
-    KC_TASK,
+    KC_TASK = USER_START,
     KC_FILE,
-    KC_SNAP,
-    KC_CTANA,
-    KC_SIRI,
 #ifdef KC_BLUETOOTH_ENABLE
     BT_HST1,
     BT_HST2,
