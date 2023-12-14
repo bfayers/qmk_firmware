@@ -34,6 +34,7 @@ enum custom_keycodes {
     CMD_SPC,
 };
 
+// Macro Processing
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
           case MAC_SSHOT:
