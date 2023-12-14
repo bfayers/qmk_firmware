@@ -39,11 +39,6 @@ typedef struct PACKED {
 static uint32_t power_on_indicator_timer_buffer;
 static uint32_t siri_timer_buffer = 0;
 
-key_combination_t key_comb_list[4] = {
-    {2, {KC_LWIN, KC_TAB}},        // Task (win)
-    {2, {KC_LWIN, KC_E}}          // Files (win)
-};
-
 #ifdef KC_BLUETOOTH_ENABLE
 bool                   firstDisconnect  = true;
 bool                   bt_factory_reset = false;
@@ -72,16 +67,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     static uint8_t host_idx = 0;
 
     switch (keycode) {
-        case KC_TASK:
-        case KC_FILE:
-            if (record->event.pressed) {
-                for (uint8_t i = 0; i < key_comb_list[keycode - KC_TASK].len; i++)
-                    register_code(key_comb_list[keycode - KC_TASK].keycode[i]);
-            } else {
-                for (uint8_t i = 0; i < key_comb_list[keycode - KC_TASK].len; i++)
-                    unregister_code(key_comb_list[keycode - KC_TASK].keycode[i]);
-            }
-            return false; // Skip all further processing of this key
 #ifdef KC_BLUETOOTH_ENABLE
         case BT_HST1 ... BT_HST3:
             if (get_transport() == TRANSPORT_BLUETOOTH) {

@@ -38,7 +38,9 @@ tap_dance_action_t tap_dance_actions[] = {
 enum custom_keycodes {
     SSHOT = SAFE_RANGE,
     GUI_SPC,
-    OS_FN
+    OS_FN,
+    KC_TASK,
+    KC_FILE
 };
 
 // This will be true when the switch is set to windows, and false when the switch is set to mac.
@@ -54,6 +56,18 @@ bool dip_switch_update_user(uint8_t index, bool active) {
 // Macro Processing
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+          case KC_TASK:
+               if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI(SS_TAP(X_TAB)));
+                    return false;
+               }
+               break;
+          case KC_FILE:
+               if (record->event.pressed) {
+                    SEND_STRING(SS_LGUI(SS_TAP(X_E)));
+                    return false;
+               }
+               break;
           case SSHOT:
                if (record->event.pressed) {
                     if (on_windows) {
@@ -61,11 +75,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     } else {
                          SEND_STRING(SS_LCMD(SS_LOPT("8")));
                     }
+                    return false;
                }
                break;
           case GUI_SPC:
                if (record->event.pressed) {
                     SEND_STRING(SS_LGUI(" "));
+                    return false;
                }
                break;
           case OS_FN:

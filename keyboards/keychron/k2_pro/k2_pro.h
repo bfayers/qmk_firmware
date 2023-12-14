@@ -31,10 +31,8 @@
 
 // clang-format off
 enum {
-    KC_TASK = USER_START,
-    KC_FILE,
 #ifdef KC_BLUETOOTH_ENABLE
-    BT_HST1,
+    BT_HST1 = USER_START,
     BT_HST2,
     BT_HST3,
     BAT_LVL,
