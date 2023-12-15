@@ -101,6 +101,64 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool dynamic_recording = false;
+bool lit = false;
+bool using_1 = true;
+static uint16_t recording_timer;
+// Dynamic Macro Hooks
+void dynamic_macro_record_start_user(int8_t direction) {
+     //Switch to custom defined empty RGB effect
+     rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_empty_effect);
+     //Turn off all keys
+     rgb_matrix_set_color_all(0,0,0);
+     dynamic_recording = true;
+     print("Dynamic macro recording started\n");
+     if (direction == 1) {
+          using_1 = true;
+          print("Using macro 1\n");
+     } else {
+          using_1 = false;
+          print("Using macro 2\n");
+     }
+     recording_timer = timer_read();
+}
+void dynamic_macro_record_end_user(int8_t direction) {
+     dynamic_recording = false;
+     //Restore previous RGB mode.
+     rgb_matrix_reload_from_eeprom();
+     print("Dynamic macro recording finished\n");
+}
+
+bool rgb_matrix_indicators_user(void) {
+     if (dynamic_recording) {
+          if (lit) {
+               if (timer_elapsed(recording_timer) > 500) {
+                    if (using_1) {
+                         rgb_matrix_set_color(42, 0, 0, 0);
+                         print("Macro 1 light off\n");
+                    } else {
+                         rgb_matrix_set_color(43, 0, 0, 0);
+                         print("Macro 2 light off\n");
+                    }
+                    lit = false;
+                    recording_timer = timer_read();
+               }
+          } else {
+               if (timer_elapsed(recording_timer) > 250) {
+                    if (using_1) {
+                         rgb_matrix_set_color(42, 255, 0, 0);
+                         print("Macro 1 light on\n");
+                    } else {
+                         rgb_matrix_set_color(43, 255, 0, 0);
+                         print("Macro 2 light on\n");
+                    }
+                    lit = true;
+                    recording_timer = timer_read();
+               }
+          }
+     }
+     return true;
+}
 
 //Definition of layers
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
