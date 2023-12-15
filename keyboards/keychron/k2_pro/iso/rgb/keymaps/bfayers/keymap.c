@@ -121,7 +121,7 @@ void dynamic_macro_record_end_user(int8_t direction) {
 
 bool rgb_matrix_indicators_user(void) {
      if (dynamic_recording) {
-          if (lit) {
+          /*if (lit) {
                if (timer_elapsed(recording_timer) > 1500) {
                     if (using_1) {
                          rgb_matrix_set_color(42, 0, 0, 0);
@@ -141,6 +141,10 @@ bool rgb_matrix_indicators_user(void) {
                     lit = true;
                     recording_timer = timer_read();
                }
+          }*/
+          if (timer_elapsed(recording_timer) > 750) {
+               rgb_matrix_toggle();
+               recording_timer = timer_read();
           }
      }
      return true;
