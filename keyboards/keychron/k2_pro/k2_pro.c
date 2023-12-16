@@ -67,6 +67,18 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     static uint8_t host_idx = 0;
 
     switch (keycode) {
+        case KC_TASK:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_TAP(X_TAB)));
+                return false;
+            }
+            break;
+        case KC_FILE:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_TAP(X_E)));
+                return false;
+            }
+            break;
 #ifdef KC_BLUETOOTH_ENABLE
         case BT_HST1 ... BT_HST3:
             if (get_transport() == TRANSPORT_BLUETOOTH) {
