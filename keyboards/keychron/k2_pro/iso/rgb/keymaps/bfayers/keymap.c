@@ -96,13 +96,16 @@ static uint16_t recording_timer;
 void dynamic_macro_record_start_user(int8_t direction) {
      //Switch to custom defined empty RGB effect
      rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_empty_effect);
+     print("Starting dynamic macro recording\n");
      //Turn off all keys
      rgb_matrix_set_color_all(0,0,0);
      dynamic_recording = true;
      if (direction == 1) {
           using_1 = true;
+          print("Using 1\n");
      } else {
           using_1 = false;
+          print("Using 2\n");
      }
      recording_timer = timer_read();
 }
@@ -110,16 +113,20 @@ void dynamic_macro_record_end_user(int8_t direction) {
      dynamic_recording = false;
      //Restore previous RGB mode.
      rgb_matrix_reload_from_eeprom();
+     print("Ending dynamic macro recording\n");
 }
 
-bool rgb_matrix_indicators_user(void) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
      if (dynamic_recording) {
+          print("Matrix Function\n");
           if (lit) {
                if (timer_elapsed(recording_timer) > 500) {
                     if (using_1) {
                          rgb_matrix_set_color(42, 0, 0, 0);
+                         print("Setting 1 to off\n");
                     } else {
                          rgb_matrix_set_color(43, 0, 0, 0);
+                         print("Setting 2 to off\n");
                     }
                     lit = false;
                     recording_timer = timer_read();
@@ -128,15 +135,17 @@ bool rgb_matrix_indicators_user(void) {
                if (timer_elapsed(recording_timer) > 250) {
                     if (using_1) {
                          rgb_matrix_set_color(42, 255, 0, 0);
+                         print("Setting 1 to on\n");
                     } else {
                          rgb_matrix_set_color(43, 255, 0, 0);
+                         print("Setting 2 to on\n");
                     }
                     lit = true;
                     recording_timer = timer_read();
                }
           }
      }
-     return true;
+     return false;
 }
 
 //Definition of layers
