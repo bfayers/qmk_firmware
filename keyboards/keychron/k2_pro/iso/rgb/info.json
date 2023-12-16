@@ -1,0 +1,19 @@
+{
+    "usb": {
+    	"pid": "0x0221",
+    	"device_version": "1.0.0"
+    },
+    "features": {
+        "rgb_matrix": true
+    },
+    "rgb_matrix": {
+        "driver": "ckled2001",
+        "animations": {
+            "rainbow_beacon": true,
+            "pixel_rain": true,
+            "typing_heatmap": true,
+            "digital_rain": true,
+            "splash": true
+        }
+    }
+}
