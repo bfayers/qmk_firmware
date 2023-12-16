@@ -89,8 +89,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool dynamic_recording = false;
-bool lit = false;
-bool using_1 = true;
+bool DM_indicator_lit = false;
+bool using_DM1 = true;
 static uint16_t recording_timer;
 // Dynamic Macro Hooks
 void dynamic_macro_record_start_user(int8_t direction) {
@@ -100,9 +100,9 @@ void dynamic_macro_record_start_user(int8_t direction) {
      rgb_matrix_set_color_all(0,0,0);
      dynamic_recording = true;
      if (direction == 1) {
-          using_1 = true;
+          using_DM1 = true;
      } else {
-          using_1 = false;
+          using_DM1 = false;
      }
      recording_timer = timer_read();
 }
@@ -115,24 +115,24 @@ void dynamic_macro_record_end_user(int8_t direction) {
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
      if (dynamic_recording) {
           print("Matrix Function\n");
-          if (lit) {
+          if (DM_indicator_lit) {
                if (timer_elapsed(recording_timer) > 500) {
-                    if (using_1) {
+                    if (using_DM1) {
                          rgb_matrix_set_color(42, 0, 0, 0);
                     } else {
                          rgb_matrix_set_color(43, 0, 0, 0);
                     }
-                    lit = false;
+                    DM_indicator_lit = false;
                     recording_timer = timer_read();
                }
           } else {
                if (timer_elapsed(recording_timer) > 250) {
-                    if (using_1) {
+                    if (using_DM1) {
                          rgb_matrix_set_color(42, 255, 0, 0);
                     } else {
                          rgb_matrix_set_color(43, 255, 0, 0);
                     }
-                    lit = true;
+                    DM_indicator_lit = true;
                     recording_timer = timer_read();
                }
           }
