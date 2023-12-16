@@ -17,6 +17,8 @@
 
 #include "led_matrix.h"
 
+#include "gpio.h"
+
 /* Each driver needs to define a struct:
  *
  *    const led_matrix_driver_t led_matrix_driver;
@@ -197,9 +199,9 @@ static void flush(void) {
 }
 
 const led_matrix_driver_t led_matrix_driver = {
-    .init = init,
-    .flush = flush,
-    .set_value = is31fl3733_set_value,
+    .init          = init,
+    .flush         = flush,
+    .set_value     = is31fl3733_set_value,
     .set_value_all = is31fl3733_set_value_all,
 };
 
@@ -218,9 +220,9 @@ static void flush(void) {
 }
 
 const led_matrix_driver_t led_matrix_driver = {
-    .init = init,
-    .flush = flush,
-    .set_value = IS31FL_simple_set_brightness,
+    .init          = init,
+    .flush         = flush,
+    .set_value     = IS31FL_simple_set_brightness,
     .set_value_all = IS31FL_simple_set_brigntness_all,
 };
 #    elif defined(CKLED2001)
@@ -237,11 +239,41 @@ static void flush(void) {
 #        endif
 }
 
-const led_matrix_driver_t led_matrix_driver = {
-    .init = init,
-    .flush = flush,
-    .set_value = ckled2001_set_value,
-    .set_value_all = ckled2001_set_value_all,
+#        if defined(LED_MATRIX_DRIVER_SHUTDOWN_ENABLE)
+static void shutdown(void) {
+#            if defined(LED_DRIVER_SHUTDOWN_PIN)
+    writePinLow(LED_DRIVER_SHUTDOWN_PIN);
+#            else
+    CKLED2001_sw_shutdown(DRIVER_ADDR_1);
+#                if defined(DRIVER_ADDR_2)
+    CKLED2001_sw_shutdown(DRIVER_ADDR_2);
+#                    if defined(DRIVER_ADDR_3)
+    CKLED2001_sw_shutdown(DRIVER_ADDR_3);
+#                        if defined(DRIVER_ADDR_4)
+    CKLED2001_sw_shutdown(DRIVER_ADDR_4);
+#                        endif
+#                    endif
+#                endif
+#            endif
+}
+
++ static void exit_shutdown(void) {
+    +#if defined (LED_DRIVER_SHUTDOWN_PIN) + writePinHigh(LED_DRIVER_SHUTDOWN_PIN);
+    +#else + CKLED2001_sw_return_normal(DRIVER_ADDR_1);
+    +#if defined (DRIVER_ADDR_2) + CKLED2001_sw_return_normal(DRIVER_ADDR_2);
+    +#if defined (DRIVER_ADDR_3) + CKLED2001_sw_return_normal(DRIVER_ADDR_3);
+    +#if defined (DRIVER_ADDR_4) + CKLED2001_sw_return_normal(DRIVER_ADDR_4);
+    +#endif + #endif + #endif + #endif +
+}
++ #endif +
+    const led_matrix_driver_t led_matrix_driver = {.init          = init,
+                                                   .flush         = flush,
+                                                   .set_value     = ckled2001_set_value,
+                                                   .set_value_all = ckled2001_set_value_all,
+#            if defined(LED_MATRIX_DRIVER_SHUTDOWN_ENABLE)
+                                                   .shutdown      = shutdown,
+                                                   .exit_shutdown = exit_shutdown
+#            endif
 };
+#        endif
 #    endif
-#endif
