@@ -65,14 +65,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     } else {
                          SEND_STRING(SS_LCMD(SS_LOPT("8")));
                     }
-                    return false;
                }
+               return false;
                break;
           case GUI_SPC:
                if (record->event.pressed) {
                     SEND_STRING(SS_LGUI(" "));
-                    return false;
                }
+               return false;
                break;
           case OS_FN:
                if (record->event.pressed) {
