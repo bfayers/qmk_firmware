@@ -28,6 +28,7 @@ enum layers{
 #include "features/tap_dance.c"
 #include "features/dip_switch_position.c"
 #include "features/mocking_text.c"
+#include "features/leader_key.c"
 
 // Macro Definitions
 enum custom_keycodes {
