@@ -12,7 +12,6 @@
             "rainbow_beacon": true,
             "pixel_rain": true,
             "typing_heatmap": true,
-            "digital_rain": true,
             "splash": true
         }
     }
