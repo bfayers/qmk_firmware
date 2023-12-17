@@ -35,16 +35,6 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_LSHIFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
 };
 
-// Macro Definitions
-enum custom_keycodes {
-    KM_SHOT = SAFE_RANGE,
-    GUI_SPC,
-    OS_FN,
-    RGB_MODC,
-    RGB_RMODC,
-    KM_EMOJI
-};
-
 // This will be true when the switch is set to windows, and false when the switch is set to mac.
 bool on_windows = false;
 
@@ -54,6 +44,16 @@ bool dip_switch_update_user(uint8_t index, bool active) {
     }
     return true;
 }
+
+// Macro Definitions
+enum custom_keycodes {
+    KM_SHOT = SAFE_RANGE,
+    GUI_SPC,
+    OS_FN,
+    RGB_MODC,
+    RGB_RMODC,
+    KM_EMOJI
+};
 
 // Macro Processing
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
