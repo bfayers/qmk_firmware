@@ -89,21 +89,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                return false;
                break;
           case RGB_MODC:
-               //Custom keycode to cycle forwards through rgb modes, but skip the custom empty effect.
-               if (record->event.pressed) {
-                    rgb_matrix_step();
-                    if ( rgb_matrix_get_mode() == RGB_MATRIX_CUSTOM_empty_effect ) {
-                         rgb_matrix_step();
-                    }
-               }
-               return false;
-               break;
           case RGB_RMODC:
-               //Custom keycode to cycle backwards through rgb modes, but skip the empty effect.
+               //Custom keycode to cycle through rgb modes, but skip the custom empty effect.
                if (record->event.pressed) {
-                    rgb_matrix_step_reverse();
+                    keycode == RGB_MODC ? rgb_matrix_step() : rgb_matrix_step_reverse();
                     if ( rgb_matrix_get_mode() == RGB_MATRIX_CUSTOM_empty_effect ) {
-                         rgb_matrix_step_reverse();
+                         keycode == RGB_MODC ? rgb_matrix_step() : rgb_matrix_step_reverse();
                     }
                }
                return false;
