@@ -45,6 +45,19 @@ bool dip_switch_update_user(uint8_t index, bool active) {
     return true;
 }
 
+//Function to alternate holding shift for keypresses (mocking text joke)
+bool enable_mocking = false;
+bool mocking_shift_held = false;
+void mocking_shift(void) {
+     if (mocking_shift_held) {
+          unregister_code(KC_LSFT);
+          mocking_shift_held = false;
+     } else {
+          register_code(KC_LSFT);
+          mocking_shift_held = true;
+     }
+}
+
 // Macro Definitions
 enum custom_keycodes {
     KM_SHOT = SAFE_RANGE,
@@ -52,7 +65,8 @@ enum custom_keycodes {
     OS_FN,
     RGB_MODC,
     RGB_RMODC,
-    KM_EMOJI
+    KM_EMOJI,
+    KM_MOCK
 };
 
 // Macro Processing
@@ -108,6 +122,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     }
                }
                return false;
+               break;
+          case KM_MOCK:
+               if (record->event.pressed) {
+                    //Toggle mocking mode.
+                    enable_mocking = !enable_mocking;
+               }
+               return false;
+               break;
+          case KC_A ... KC_Z:
+               //If "mocking text" mode is enabled, hold shift for every other keypress.
+               if (enable_mocking && record->event.pressed) {
+                    mocking_shift();
+               }
+               //Return true so that QMK will still process the keypress normally.
+               return true;
                break;
     }
     return true;
@@ -180,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TRNS,  BT_HST1,  BT_HST2,  BT_HST3,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,            KC_TRNS,
      KC_TRNS,  RGB_MODC,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  DM_REC1,  DM_REC2,  KC_TRNS,           KC_TRNS,
      KC_TRNS,  RGB_RMODC, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  DM_PLY1,  DM_PLY2,                     KC_TRNS,
-     KC_TRNS,  KM_EMOJI,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  BAT_LVL,  NK_TOGG,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS,
+     KM_MOCK,  KM_EMOJI,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  BAT_LVL,  NK_TOGG,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS,
      KC_TRNS,  KC_TRNS,  KC_TRNS,                                KC_TRNS,                                KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS),
 
 [WIN_FN] = LAYOUT_iso_85(
