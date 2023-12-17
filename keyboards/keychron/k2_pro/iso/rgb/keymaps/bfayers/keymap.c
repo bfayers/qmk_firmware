@@ -24,39 +24,10 @@ enum layers{
   WIN_FN
 };
 
-// Tap Dance Declarations
-enum {
-     TD_LSHIFT_CAPS,
-};
-
-// Tap Dance Definitions
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Escape, twice for Caps Lock
-    [TD_LSHIFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-};
-
-// This will be true when the switch is set to windows, and false when the switch is set to mac.
-bool on_windows = false;
-
-bool dip_switch_update_user(uint8_t index, bool active) {
-    if (index == 0) {
-        on_windows = active;
-    }
-    return true;
-}
-
-//Function to alternate holding shift for keypresses (mocking text joke)
-bool enable_mocking = false;
-bool mocking_shift_held = false;
-void mocking_shift(void) {
-     if (mocking_shift_held) {
-          unregister_code(KC_LSFT);
-          mocking_shift_held = false;
-     } else {
-          register_code(KC_LSFT);
-          mocking_shift_held = true;
-     }
-}
+// Include features from seperate files
+#include "features/tap_dance.c"
+#include "features/dip_switch_position.c"
+#include "features/mocking_text.c"
 
 // Macro Definitions
 enum custom_keycodes {
