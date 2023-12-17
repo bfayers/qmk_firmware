@@ -76,9 +76,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                break;
           case OS_FN:
                if (record->event.pressed) {
+                    //Move to the MAC_FN layer
                     layer_move(MAC_FN);
                     if (on_windows) {
-                         //If we are on the windows side also enable the WIN_FN layer to mix them.
+                         //If the dip switch is set to windows, layer the WIN_FN layer on top of the MAC_FN layer.
                          layer_on(WIN_FN);
                     }
                } else {
@@ -88,7 +89,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                return false;
                break;
           case RGB_MODC:
-               //Custom keycode to cycle forwards through rgb modes, but skip the empty effect.
+               //Custom keycode to cycle forwards through rgb modes, but skip the custom empty effect.
                if (record->event.pressed) {
                     rgb_matrix_step();
                     if ( rgb_matrix_get_mode() == RGB_MATRIX_CUSTOM_empty_effect ) {
