@@ -132,13 +132,13 @@ void dynamic_macro_record_start_user(int8_t direction) {
      rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_empty_effect);
      //Turn off all keys
      rgb_matrix_set_color_all(0,0,0);
-     dynamic_recording = true;
      if (direction == 1) {
           using_DM1 = true;
      } else {
           using_DM1 = false;
      }
      recording_timer = timer_read();
+     dynamic_recording = true;
 }
 void dynamic_macro_record_end_user(int8_t direction) {
      dynamic_recording = false;
