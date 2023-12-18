@@ -32,7 +32,7 @@ enum layers{
 
 // Macro Definitions
 enum custom_keycodes {
-    KM_SHOT = SAFE_RANGE,
+    KM_SHOT = NEW_SAFE_RANGE,
     GUI_SPC,
     OS_FN,
     RGB_MODC,
