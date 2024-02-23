@@ -189,9 +189,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                //Turn off all keys
                rgb_matrix_set_color_all(0,0,0);
           }
-          if (os_mode_indicator_counter >= 3) {
+          if (os_mode_indicator_counter > 3) {
                os_mode_indicator_counter = 0;
                os_mode_indicating = false;
+               os_mode_indicator_lit = false;
                // Reset back to previous rgb matrix mode
                rgb_matrix_reload_from_eeprom();
           }
@@ -204,8 +205,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                          rgb_matrix_set_color(68, 0, 0, 0);
                     }
                     os_mode_indicator_lit = false;
-                    os_mode_timer = timer_read();
                     os_mode_indicator_counter++;
+                    os_mode_timer = timer_read();
                }
           } else {
                if (timer_elapsed(os_mode_timer) > 250) {
