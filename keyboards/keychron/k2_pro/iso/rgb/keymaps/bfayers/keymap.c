@@ -211,9 +211,9 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
           } else {
                if (timer_elapsed(os_mode_timer) > 250) {
                     if (on_windows) {
-                         rgb_matrix_set_color(33, 0, 0, 255);
+                         rgb_matrix_set_color(33, 255, 255, 255);
                     } else {
-                         rgb_matrix_set_color(68, 0, 0, 255);
+                         rgb_matrix_set_color(68, 255, 255, 255);
                     }
                     os_mode_indicator_lit = true;
                     os_mode_timer = timer_read();
