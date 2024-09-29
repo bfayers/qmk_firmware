@@ -51,7 +51,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     if (on_windows) {
                          SEND_STRING(SS_LGUI(SS_LSFT("S")));
                     } else {
-                         SEND_STRING(SS_LCMD(SS_LOPT("8")));
+                         SEND_STRING(SS_LCMD(SS_LSFT("8")));
                     }
                }
                return false;
